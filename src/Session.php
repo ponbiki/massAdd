@@ -7,7 +7,7 @@ class Session implements  iSession
     public function __construct()
     {
         ini_set('session.use_only_cookies', true);
-        session_start();
+        \session_start();
         if (!isset($_SESSION['generated']) || $_SESSION['generated'] < (time() - 30)) {
             session_regenerate_id();
             $_SESSION['generated'] = time();
@@ -25,10 +25,10 @@ class Session implements  iSession
         if (isset($_SESSION['api_key'])) {
             $_SESSION['loggedin'] = \FALSE;
             unset($_SESSION['api']);
-            if (session_id() != "" || isset ($_COOKIE[session_name()])) {
-                setcookie(session_name(), '', time() - 2592000, '/');
+            if (\session_id() != "" || isset ($_COOKIE[\session_name()])) {
+                \setcookie(\session_name(), '', time() - 2592000, '/');
             }
-            session_destroy();
+            \session_destroy();
         }
     }
     
