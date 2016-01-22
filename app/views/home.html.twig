@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ page }}{% endblock %}
+{% block head %}
+    {{ parent() }}
+    {% block keywords %}
+        <meta name='keywords' content='NS1, NSONE, api cheat {{ meta }}'>
+    {% endblock %}
+{% endblock %}
+{% block scripts %}
+    <script type='text/javascript'>
+        $(function() {
+            $( "input[type=submit], a, .jbutton" ).button();
+        });
+        $(document).ready(function() {
+            setTimeout(function() {
+                $( ".notify" ).fadeOut(1000, function () {
+                    $( ".notify" ).css({"visibility":"hidden","display":"block"}).slideUp();
+                });
+            }, 3500);
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <div style='clear: both;'>
+        <form method='post' action='/' class='ns1cp'>
+            <h1><img src='/img/top_ns1.png' class='ns1loginlogo' alt='NS1' title='NS1' /></h1>
+            <label title='API Key'>
+                <span>API Key: </span>
+                <input id='key' type='password' maxlength='32' name='key' value='' placeholder='Enter API Key'/>
+            </label>
+            <label title='Login'>
+                <span>&nbsp;</span>
+                <input type='submit' value='Login' id='jbutton' />
+            </label>
+        </form>
+    </div>
+{% endblock %}
