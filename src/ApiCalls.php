@@ -30,7 +30,7 @@ class ApiCalls implements iApiCalls
         $arg = "zones";
         $body = self::baseCurl($key, $arg);
         if (array_key_exists('message', $body)) {
-            return \FALSE;
+            $this->valid_key = \FALSE;
         } else {
             $this->valid_key = $key;
             $this->zone_list = self::zoneList($body);
