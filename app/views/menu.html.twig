@@ -9,8 +9,13 @@
 {% block scripts %}
     <script type='text/javascript'>
         $(function() {
-            $( "#tabs" ).tabs();
+            $( "#tabs" ).tabs({
+                collapsible: true
+            });
         });
+        $(function() {
+        $( document ).tooltip();
+        });        
         $(function() {
             $( "#accordion" ).accordion({
                 collapsible: true,
@@ -38,39 +43,14 @@
 {% block content %}
     <div id='tabs'>
         <ul>
-            <li><a href='#zone-check' title='Zone Consistancy Checker'>Zone Check</a></li>
-            <li><a href='#zone-dump' title='Zone Record Dumper'>Zone Dump</a></li>
-            <li><a href='#records' title='Record Level Actions'>Records</a></li>
+            <li><a href='#search' title='Answer Search'>Answer Search</a></li>
         </ul>
-        <div id='zone-check'>
-            <form method='post'action='/zone/diff'>
-                <select name='zone' id='zone' style='width:200px;'>
-                    {% for zone in zones %}
-                        <option>{{ zone }}</option>
-                    {% endfor %}
-                </select><br />
-                <input type='submit' value='Verify Zone Info' />
+        <div id='search'>
+            <form method='post' action='/search'>
+                <p>Enter the answer you would like to search for.</p>
+                <p><label for="answer">Answer: </label><input id="answer" title="Enter Answer"></p>
+                <input type='submit' value='Search' title="Search"/>
             </form>
-        </div>
-        <div id='zone-dump'>
-            <form method='post'action='/zone/dump'>
-                <select name='zonedump' id='zonedump' style='width:200px;'>
-                    {% for zone in zones %}
-                        <option>{{ zone }}</option>
-                    {% endfor %}
-                </select><br />
-                <input type='submit' value='Dump Zone Info' />
-            </form>
-        </div>
-        <div id='records'>
-            <div id='accordion'>
-                <h3 title='Change Record Type'>Change Type</h3>
-                <div id='change'>
-                    <form method ='get' action='/record/change'>
-                        
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 {% endblock %}
