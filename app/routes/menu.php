@@ -4,6 +4,8 @@ use ns1\apiCheat as cheat;
 
 $app->get('/menu', function() use ($app) {
     
+    echo "<pre style='color: white'>";print_r($_SESSION);echo "</pre>";
+    
     if ($_SESSION['loggedin'] !== \TRUE) {
         $app->redirect('/');
     }

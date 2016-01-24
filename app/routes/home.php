@@ -11,8 +11,7 @@ $app->get('/', function () use ($app) {
     }
     
     $page = "Api Key Entry";
-    $meta = "Login";
-    
+    $meta = "Login";    
     $app->render('home.html.twig', [
         'page' => $page,
         'meta' => $meta,
