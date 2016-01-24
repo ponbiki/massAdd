@@ -2,7 +2,6 @@
 
 use ns1\apiCheat as cheat;
 
-
 $app->get('/menu', function() use ($app) {
     
     if ($_SESSION['loggedin'] !== \TRUE) {

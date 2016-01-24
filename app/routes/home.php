@@ -6,12 +6,12 @@ new cheat\Session();
 
 $app->get('/', function () use ($app) {
     
-    $page = "Api Key Entry";
-    $meta = "Login";
-    
     if (array_key_exists('loggedin', $_SESSION)) {
         $app->redirect('/menu');
     }
+    
+    $page = "Api Key Entry";
+    $meta = "Login";
     
     $app->render('home.html.twig', [
         'page' => $page,

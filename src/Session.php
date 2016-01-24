@@ -22,9 +22,8 @@ class Session implements  iSession
     
     public static function logout()
     {
-        if (isset($_SESSION['api_key'])) {
-            $_SESSION['loggedin'] = \FALSE;
-            unset($_SESSION['api']);
+        if (isset($_SESSION['loggedin'])) {
+            $_SESSION = array();
             if (\session_id() != "" || isset ($_COOKIE[\session_name()])) {
                 \setcookie(\session_name(), '', time() - 2592000, '/');
             }
