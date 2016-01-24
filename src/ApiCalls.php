@@ -5,7 +5,6 @@ namespace ns1\apiCheat;
 class ApiCalls implements iApiCalls
 {
     
-    protected $clean_key;
     protected $search_arg;
     protected $zone_hold;
     public $valid_key;
@@ -15,10 +14,9 @@ class ApiCalls implements iApiCalls
     
     protected function baseCurl($key, $arg)
     {
-        $this->clean_key = \filter_var($key, FILTER_SANITIZE_STRING);
         $ch = \curl_init();
         \curl_setopt($ch, \CURLOPT_URL, self::BASEURL . $arg);
-        \curl_setopt($ch, \CURLOPT_HTTPHEADER, array("X-NSONE-Key: $this->clean_key"));
+        \curl_setopt($ch, \CURLOPT_HTTPHEADER, array("X-NSONE-Key: $key"));
         \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
         $this->body = \json_decode(\curl_exec($ch), true);
         \curl_close($ch);
@@ -33,7 +31,7 @@ class ApiCalls implements iApiCalls
             $this->valid_key = \FALSE;
         } else {
             $this->valid_key = $key;
-            $this->zone_list = self::zoneList($body);
+            self::zoneList($body);
         }
     }
     
