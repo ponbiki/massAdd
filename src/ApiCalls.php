@@ -9,6 +9,7 @@ class ApiCalls implements iApiCalls
     public $valid_key;
     public $zone_list;
     public $record_list;
+    public $search_answer;
     public $matches_array;
     
     protected function baseCurl($key, $arg)
@@ -50,6 +51,7 @@ class ApiCalls implements iApiCalls
     
     public function getMatches($answer)
     {
+        $this->search_answer = $answer;
         $search_arg = "search?q=$answer&type=answers";
         $record_array = $this->baseCurl($this->valid_key, $search_arg);
         if (\count($record_array) < 1) {
