@@ -58,7 +58,9 @@
                 $( "#tabs" ).tabs({
                     collapsible: true
                 });
-                $( document ).tooltip();
+                $( document ).tooltip({
+                    track: true
+                });
                 $( "input[type=checkbox], a, button" ).button();
                 $( "input[type=submit], a, .jbutton" ).button();
                 $( "#dialog1" ).dialog({
