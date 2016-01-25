@@ -5,7 +5,6 @@ namespace ns1\apiCheat;
 class ApiCalls implements iApiCalls
 {
     
-    protected $search_arg;
     protected $zone_hold;
     public $valid_key;
     public $zone_list;
@@ -44,16 +43,16 @@ class ApiCalls implements iApiCalls
     }
  
     public function getRecords($zone) {
-        $this->clean_zone = \filter_var($zone, FILTER_SANITIZE_STRING);
+        $this->clean_zone = \filter_var($zone, \FILTER_SANITIZE_STRING);
         $zone_arg = "zones/$this->clean_zone";
         $this->record_list = self::baseCurl($this->clean_key, $zone_arg);
     }
     
     public function getMatches($answer)
     {
-        $this->search_arg = "search?q=$answer&type=answers";
-        $record_array = $this->baseCurl($this->valid_key, $this->arg);
-        if (count($this->record_array === 0)) {
+        $search_arg = "search?q=$answer&type=answers";
+        $record_array = $this->baseCurl($this->valid_key, $search_arg);
+        if (\count($record_array) < 1) {
             $_SESSION['error'][] = "$answer is not associated with any records!";
             exit;
         } else {

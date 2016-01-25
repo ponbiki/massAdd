@@ -6,9 +6,10 @@ $app->get('/menu', function() use ($app) {
     
     echo "<pre style='color: white'>";print_r($_SESSION);echo "</pre>";
     
-    if ($_SESSION['loggedin'] !== \TRUE) {
+    if ((!array_key_exists('loggedin', $_SESSION)) || ($_SESSION['loggedin'] !== \TRUE)) {
         $app->redirect('/');
     }
+    
     $page = "Menu";
     $meta = "API Cheat Menu";
     
@@ -17,8 +18,7 @@ $app->get('/menu', function() use ($app) {
         'meta' => $meta,
         'info' => $_SESSION['info'],
         'error' => $_SESSION['error'],
-        'loggedin' => $_SESSION['loggedin'],
-        'zones' => $_SESSION['api']->zone_list
+        'loggedin' => $_SESSION['loggedin']
     ]);
     
     cheat\Session::clear();    
