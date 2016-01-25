@@ -13,9 +13,11 @@
         </ul>
         <div id='search'>
             <form method='post' action='/search'>
-                <p>Enter the answer you would like to search for.</p>
-                <p><label for="answer">Answer: </label><input id="answer" name="answer" title="Enter Answer" placeholder="Enter Answer to Search"></p>
-                <input type='submit' value='Search' title="Search"/>
+                <fieldset>
+                    <legend>Search for an answer</legend>
+                    <p><label for="answer"></label><input type='text' maxlength='253' id="answer" name="answer" title="Enter Answer" placeholder="Enter Answer to Search" style='max-width:320px'/></p>
+                    <input type='submit' value='Search' title="Search"/>
+                </fieldset>
             </form>
         </div>
     </div>
