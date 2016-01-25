@@ -16,6 +16,7 @@ $app->post('/search', function () use ($app) {
     $_SESSION['api']->getMatches($clean_answer);
     
     if (isset($_SESSION['api']->matches_array)) {
+        $_SESSION['info'][] = "Found ". \count($_SESSION['api']->matches_array) . " records containing {$_SESSION['api']->search_answer}";
         $app->redirect('/results');
     } else {
         $app->redirect('/menu');

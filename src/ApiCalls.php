@@ -61,6 +61,10 @@ class ApiCalls implements iApiCalls
             $this->matches_array = $record_array;
         }
     }
+    
+    public function replaceAnswer($new_answer) {
+        return $new_answer;
+    }
 }
 
 /*

@@ -8,4 +8,5 @@ interface iApiCalls
     public function keyValidate($key);
     public function getRecords($zone);
     public function getMatches($answer);
+    public function replaceAnswer($new_answer);
 }

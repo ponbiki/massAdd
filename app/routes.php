@@ -5,3 +5,4 @@ require 'routes/menu.php';
 require 'routes/logout.php';
 require 'routes/search.php';
 require 'routes/results.php';
+require 'routes/replace.php';
