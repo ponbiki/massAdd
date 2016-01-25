@@ -27,7 +27,9 @@
                 $( "#tabs" ).tabs({
                     collapsible: true
                 });
-                $( document ).tooltip();
+                $( document ).tooltip({
+                    track: true
+                });
                 $( "input[type=submit], a, .jbutton" ).button();
             });
             $(document).ready(function() {

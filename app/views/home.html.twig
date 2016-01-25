@@ -25,6 +25,9 @@
         $(function() {
             $( "input[type=submit], a, .jbutton" ).button();
         });
+        $( document ).tooltip({
+            track: true
+        });        
         $(document).ready(function() {
             setTimeout(function() {
                 $( ".notify" ).fadeOut(1000, function () {
