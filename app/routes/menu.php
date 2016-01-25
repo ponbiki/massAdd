@@ -10,8 +10,8 @@ $app->get('/menu', function() use ($app) {
         $app->redirect('/');
     }
     
-    $page = "Menu";
-    $meta = "API Cheat Menu";
+    $page = "Search Menu";
+    $meta = "Search Menu";
     
     $app->render('menu.html.twig', [
         'page' => $page,

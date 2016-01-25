@@ -1,7 +1,5 @@
 <?php
 
-use ns1\apiCheat as cheat;
-
 $app->post('/search', function () use ($app) {
     
     if ((!array_key_exists('loggedin', $_SESSION)) || ($_SESSION['loggedin'] !== \TRUE)) {
@@ -16,7 +14,11 @@ $app->post('/search', function () use ($app) {
     }
     
     $_SESSION['api']->getMatches($clean_answer);
-
-    $app->redirect('/menu');
-
+    
+    if (isset($_SESSION['api']->matches_array)) {
+        $app->redirect('/results');
+    } else {
+        $app->redirect('/menu');
+    }
+    
 });

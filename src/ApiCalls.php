@@ -53,8 +53,8 @@ class ApiCalls implements iApiCalls
         $search_arg = "search?q=$answer&type=answers";
         $record_array = $this->baseCurl($this->valid_key, $search_arg);
         if (\count($record_array) < 1) {
+            unset($this->matches_array);
             $_SESSION['error'][] = "$answer is not associated with any records!";
-            exit;
         } else {
             $this->matches_array = $record_array;
         }

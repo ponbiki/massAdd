@@ -9,8 +9,34 @@
 {% block content %}
     <div id='tabs'>
         <ul>
+            <li><a href='#results' title='Match Results'>Match Results</a></li>
             <li><a href='#search' title='Answer Search'>Answer Search</a></li>
         </ul>
+        <div id='results'>
+            <form method='post' action='/replace'>
+                <table>
+                    <tr title='selectall'>
+                        <td style='float:left'>
+                            <input type='checkbox' id='selectall' />
+                            <label for='selectall'>Select All</label>
+                        </td>
+                    </tr>
+                {% set x = 0 %}
+                {% for record in records %}
+                    {% set x = x + 1 %}
+                    {% set check = "check" ~ x %}
+                    <tr title='{{ record }}'>
+                        <td style='float:left'>
+                            <input type='checkbox' class='checkbox1' id='{{ check }}' name='change_record[]' value='{{ record }}'/>
+                            <label for='{{ check }}'>
+                                {{ record }}
+                            </label>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </form>
+        </div>
         <div id='search'>
             <form method='post' action='/search'>
                 <p>Enter the answer you would like to search for.</p>
@@ -26,7 +52,11 @@
                     collapsible: true
                 });
                 $( document ).tooltip();
+                $( "input[type=checkbox], a, button" ).button();
                 $( "input[type=submit], a, .jbutton" ).button();
+                $( "#selectall" ).change(function () {
+                    $("input:checkbox").prop('checked', $(this).prop("checked"));
+                });
             });
             $(document).ready(function() {
                 setTimeout(function() {
@@ -36,5 +66,5 @@
                 }, 3500);
             });
         </script>
-    {% endblock %}
+    {% endblock %}                
 {% endblock %}
