@@ -17,7 +17,7 @@
                 <fieldset>
                     <legend>Matched Records for <big><big style='color:#EB006B'>{{ answer }}</big></big></legend>
                     <div id="dialog1" title="Tip">
-                        <p>Click on any records you want to unselect from changing.</p>
+                        <p>Click on any records you want to unselect, and prevent from being changed.  Note: you cannot change record types (e.g. A record to CNAME) when changing answers.</p>
                     </div>
                     <a id="opener1" class="ui-state-default ui-corner-all tip" title="Change Record Help" style="width:19px;height:19px;padding:0px;margin:0px;font-size:1pt;">
                         <span class="ui-icon ui-icon-help"></span>
@@ -33,6 +33,12 @@
                         </label>
                     </p>
                 {% endfor %}
+                <p title='Replacement Answer'>
+                    <label for='new_answer'>
+                        <input type='text' maxlength='253' name='new_answer' value='' placeholder='Enter replacement answer for {{ answer }}'/>
+                        
+                    </label>
+                </p>
                 </fieldset>
             </form>
         </div>
