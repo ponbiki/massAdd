@@ -10,6 +10,11 @@ $app->post('/search', function () use ($app) {
     
     $clean_answer = \filter_var(($app->request()->post('answer')), \FILTER_SANITIZE_STRING);
     
+    if ($clean_answer === "") {
+        $_SESSION['error'][] = "No answer was entered. Please try again!";
+        $app->redirect('/menu');
+    }
+    
     $_SESSION['api']->getMatches($clean_answer);
 
     $app->redirect('/menu');
