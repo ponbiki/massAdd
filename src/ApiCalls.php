@@ -66,7 +66,8 @@ class ApiCalls implements iApiCalls
         }
     }
     
-    public function replaceAnswer($new_answer, $change_list) {
+    public function replaceAnswer($new_answer, $change_list)
+    {
         $this->new_answer = $new_answer;
         foreach ($this->matches_array as $key1 => $val1) {
             foreach ($val1 as $key2 => $val2) {
