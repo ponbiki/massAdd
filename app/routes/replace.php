@@ -13,8 +13,8 @@ $app->post('/replace', function () use ($app) {
         $app->redirect('/results');
     }
     
-    $_SESSION['api']->getMatches($clean_new_answer);
-    
-    
+    $_SESSION['api']->replaceAnswer($clean_new_answer);
+        
+    $app->redirect('/results');
     
 });

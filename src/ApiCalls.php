@@ -11,6 +11,7 @@ class ApiCalls implements iApiCalls
     public $record_list;
     public $search_answer;
     public $matches_array;
+    public $new_answer;
     
     protected function baseCurl($key, $arg)
     {
@@ -63,7 +64,14 @@ class ApiCalls implements iApiCalls
     }
     
     public function replaceAnswer($new_answer) {
-        return $new_answer;
+        $this->new_answer = $new_answer;
+        foreach ($this->matches_array as $match) {
+            foreach ($match['answers'] as $temp_answer) {
+                if ($temp_answer['answer'][0] === $this->search_answer) {
+                    $temp_answer['answer'][0] = $this->new_answer;
+                }
+            }
+        }
     }
 }
 
