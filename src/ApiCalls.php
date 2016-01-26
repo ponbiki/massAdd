@@ -17,10 +17,15 @@ class ApiCalls implements iApiCalls
     protected function baseCurl($arg_array) {
         $ch = \curl_init();
         \curl_setopt($ch, \CURLOPT_URL, self::BASEURL . $arg_array['arg']);
+        //\curl_setopt($ch, \CURLOPT_URL, 'http://requestb.in/1aegqii1');
         \curl_setopt($ch, \CURLOPT_HTTPHEADER, array("X-NSONE-Key: {$arg_array['key']}"));
         if (isset($arg_array['opt'])) {
-            \curl_setopt($ch, \CURLOPT_CUSTOMREQUEST, "POST");
+            \curl_setopt($ch, \CURLOPT_POST, true);
+            \curl_setopt($ch, \CURLOPT_SAFE_UPLOAD, false);
             \curl_setopt($ch, \CURLOPT_POSTFIELDS, $arg_array['opt']);
+            \curl_setopt($ch, \CURLOPT_HEADER, false);
+            \curl_setopt($ch, \CURLOPT_FOLLOWLOCATION, true);
+            \curl_setopt($ch, \CURLOPT_SSL_VERIFYPEER, false);
         }
         \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
         $this->body = \json_decode(\curl_exec($ch), true);
