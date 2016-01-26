@@ -100,7 +100,7 @@ class ApiCalls implements iApiCalls
                 $json_up = \json_encode($post_records);
                 $body = $this->baseCurl(["key" => $this->valid_key, "arg" => $arg, "opt" => $json_up]);
                 if (\array_key_exists('message', $body)) {
-                    $_SESSION['error'][] = "$post_records->domain update failed -- Invalid Input: {$body->message}";
+                    $_SESSION['error'][] = "$post_records->domain update failed -- Invalid Input: $body->message";
                     break;
                 } else {
                     $temp_matches_array[] = $post_records;
