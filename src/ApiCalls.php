@@ -13,6 +13,8 @@ class ApiCalls implements iApiCalls
     public $search_answer;
     public $matches_array;
     public $new_answer;
+    public $fieldset;
+    public $status;
     
     protected function baseCurl($arg_array) {
         $ch = \curl_init();
@@ -60,6 +62,8 @@ class ApiCalls implements iApiCalls
     public function getMatches($answer)
     {
         $this->search_answer = $answer;
+        $this->fieldset = $this->search_answer;
+        $this->status = "Records containing answer ";
         $search_arg = "search?q=$answer&type=answers";
         $record_array = self::baseCurl(["key" => $this->valid_key, "arg" => $search_arg]);
         if (\count($record_array) < 1) {
@@ -88,8 +92,10 @@ class ApiCalls implements iApiCalls
                 }
             }
         }
+        $temp_matches_array = [];
         foreach ($this->matches_array as $post_records) {
             if (\in_array($post_records->domain, $change_list)) {
+                $temp_matches_array[] = $post_records;
                 $arg = "zones/{$post_records->zone}/{$post_records->domain}/{$post_records->type}";
                 $json_up = \json_encode($post_records);
                 $body = $this->baseCurl(["key" => $this->valid_key, "arg" => $arg, "opt" => $json_up]);
@@ -98,7 +104,11 @@ class ApiCalls implements iApiCalls
                 }
             }
         }
+        $this->matches_array = $temp_matches_array;
+        $this->fieldset = $this->new_answer;
+        $this->status = "Records changed to ";
         $_SESSION['info'][] = \count($change_list) . ((\count($change_list) < 2)?" record's":" records'") 
                 . " answers updated from $this->search_answer to $this->new_answer";
+        
     }
 }
