@@ -81,7 +81,6 @@ class ApiCalls implements iApiCalls
                 }
             }
         }
-        return $stinky;
     }
 }
 
