@@ -96,19 +96,21 @@ class ApiCalls implements iApiCalls
         $temp_matches_array = [];
         foreach ($this->matches_array as $post_records) {
             if (\in_array($post_records->domain, $change_list)) {
-                $temp_matches_array[] = $post_records;
                 $arg = "zones/{$post_records->zone}/{$post_records->domain}/{$post_records->type}";
                 $json_up = \json_encode($post_records);
                 $body = $this->baseCurl(["key" => $this->valid_key, "arg" => $arg, "opt" => $json_up]);
                 if (\array_key_exists('message', $body)) {
-                    $_SESSION['error'][] = "Invalid Input: {$body['message']}";
+                    $_SESSION['error'][] = "$post_records->domain update failed -- Invalid Input: {$body->message}";
+                    break;
+                } else {
+                    $temp_matches_array[] = $post_records;
                 }
             }
         }
         $this->matches_array = $temp_matches_array;
         $this->fieldset = $this->new_answer;
         $this->status = "Records changed to ";
-        $_SESSION['info'][] = \count($change_list) . ((\count($change_list) < 2)?" record's":" records'") 
+        $_SESSION['info'][] = \count($this->matches_array) . ((\count($change_list) < 2)?" record's":" records'") 
                 . " answers updated from $this->interim_answer to $this->new_answer";
         $this->interim_answer = $this->new_answer;
     }

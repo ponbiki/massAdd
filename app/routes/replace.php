@@ -6,7 +6,12 @@ $app->post('/replace', function () use ($app) {
         $app->redirect('/');
     }
     
-    $clean_change_records = \filter_var_array(($app->request()->post('change_record')), \FILTER_SANITIZE_STRING);
+    if (is_array($app->request()->post('change_record'))) {
+        $clean_change_records = \filter_var_array(($app->request()->post('change_record')), \FILTER_SANITIZE_STRING);
+    } else {
+        $_SESSION['error'][] = 'No records to change';
+        $app->redirect('/menu');
+    }
     $clean_new_answer = \filter_var(($app->request()->post('new_answer')), \FILTER_SANITIZE_STRING);
         
     if ($clean_new_answer === "") {
