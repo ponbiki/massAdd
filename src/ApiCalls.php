@@ -15,6 +15,7 @@ class ApiCalls implements iApiCalls
     public $new_answer;
     public $fieldset;
     public $status;
+    public $interim_answer;
     
     protected function baseCurl($arg_array) {
         $ch = \curl_init();
@@ -108,7 +109,9 @@ class ApiCalls implements iApiCalls
         $this->fieldset = $this->new_answer;
         $this->status = "Records changed to ";
         $_SESSION['info'][] = \count($change_list) . ((\count($change_list) < 2)?" record's":" records'") 
-                . " answers updated from $this->search_answer to $this->new_answer";
-        
+                . " answers updated from " . 
+                (($this->search_answer===$this->new_answer)?$this->interim_answer:$this->search_answer)
+                . " to $this->new_answer";
+        $this->interim_answer = $this->new_answer;
     }
 }

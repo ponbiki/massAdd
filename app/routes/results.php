@@ -14,7 +14,8 @@ $app->get('/results', function() use ($app) {
         $records[] = $match->domain;
     }
     
-    $answer = $_SESSION['api']->search_answer;
+    $answer = $_SESSION['api']->fieldset;
+    $status = $_SESSION['api']->status;
     $page = "Results";
     $meta = "Results Menu";
     
@@ -25,7 +26,8 @@ $app->get('/results', function() use ($app) {
         'error' => $_SESSION['error'],
         'loggedin' => $_SESSION['loggedin'],
         'records' => $records,
-        'answer' => $answer
+        'answer' => $answer,
+        'status' => $status
     ]);
     
     cheat\Session::clear();    
