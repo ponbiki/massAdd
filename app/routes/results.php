@@ -30,6 +30,8 @@ $app->get('/results', function() use ($app) {
         'status' => $status
     ]);
     
+    echo"<pre style='color:white'>";print_r($_SESSION);echo"</pre>";
+    
     cheat\Session::clear();    
     
 })->name('results');

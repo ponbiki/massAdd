@@ -10,6 +10,7 @@ $app->post('/replace', function () use ($app) {
         $clean_change_records = \filter_var_array(($app->request()->post('change_record')), \FILTER_SANITIZE_STRING);
     } else {
         $_SESSION['error'][] = 'No records to change';
+        $clean_change_records = [];
         $app->redirect('/menu');
     }
     $clean_new_answer = \filter_var(($app->request()->post('new_answer')), \FILTER_SANITIZE_STRING);
