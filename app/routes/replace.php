@@ -9,8 +9,6 @@ $app->post('/replace', function () use ($app) {
     $clean_change_records = \filter_var_array(($app->request()->post('change_record')), \FILTER_SANITIZE_STRING);
     $clean_new_answer = \filter_var(($app->request()->post('new_answer')), \FILTER_SANITIZE_STRING);
         
-    $_SESSION['clean'] = $clean_change_record;
-    
     if ($clean_new_answer === "") {
         $_SESSION['error'][] = "No new answer was entered. Please try again!";
         $app->redirect('/results');
