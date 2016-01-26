@@ -17,7 +17,6 @@ class ApiCalls implements iApiCalls
     protected function baseCurl($arg_array) {
         $ch = \curl_init();
         \curl_setopt($ch, \CURLOPT_URL, self::BASEURL . $arg_array['arg']);
-        //\curl_setopt($ch, \CURLOPT_URL, 'http://requestb.in/1aegqii1');
         \curl_setopt($ch, \CURLOPT_HTTPHEADER, array("X-NSONE-Key: {$arg_array['key']}"));
         if (isset($arg_array['opt'])) {
             \curl_setopt($ch, \CURLOPT_POST, true);
@@ -28,7 +27,7 @@ class ApiCalls implements iApiCalls
             \curl_setopt($ch, \CURLOPT_SSL_VERIFYPEER, false);
         }
         \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
-        $this->body = \json_decode(\curl_exec($ch), true);
+        $this->body = \json_decode(\curl_exec($ch));
         \curl_close($ch);
         return $this->body;
     }
@@ -47,7 +46,7 @@ class ApiCalls implements iApiCalls
     private function zoneList($zones_array)
     {
         foreach ($zones_array as $zones) {
-            $this->zone_hold[] = $zones['zone'];
+            $this->zone_hold[] = $zones->zone;
         }
         return $this->zone_hold;
     }
@@ -81,7 +80,7 @@ class ApiCalls implements iApiCalls
                         foreach ($val3 as $key4 => $val4) {
                             if ($key4 == 'answer') {
                                 if ($val4[0] == $this->search_answer) {
-                                    $this->matches_array[$key1]['answers'][$key3]['answer'][0] = $this->new_answer;
+                                     $this->matches_array[$key1]->answers[$key3]->answer[0] = $this->new_answer;
                                 }
                             }
                         }
@@ -90,13 +89,12 @@ class ApiCalls implements iApiCalls
             }
         }
         foreach ($this->matches_array as $post_records) {
-            if (\in_array($post_records['domain'], $change_list)) {
-                $arg = "{$post_records['zone']}/{$post_records['domain']}/{$post_records['type']}";
+            if (\in_array($post_records->domain, $change_list)) {
+                $arg = "zones/{$post_records->zone}/{$post_records->domain}/{$post_records->type}";
                 $json_up = \json_encode($post_records);
-                $body = self::baseCurl(["key" => $this->valid_key, "arg" => $arg, "opt" => $json_up]);
+                $body = $this->baseCurl(["key" => $this->valid_key, "arg" => $arg, "opt" => $json_up]);
                 if (\array_key_exists('message', $body)) {
                     $_SESSION['error'][] = "Invalid Input: {$body['message']}";
-                    exit;
                 }
             }
         }
