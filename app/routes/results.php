@@ -28,7 +28,7 @@ $app->get('/results', function() use ($app) {
         'answer' => $answer
     ]);
 
-    //echo "<pre style='color: white'>";print_r($_SESSION);echo "</pre>";
+    echo "<pre style='color: white'>";print_r($_SESSION['api']);echo "</pre>";
     //echo "<pre style='color: white'>";print_r($_SESSION['api']->matches_array[0]['answers'][1]['answer'][0]);echo "</pre>";    
     
     cheat\Session::clear();    

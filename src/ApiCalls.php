@@ -65,13 +65,23 @@ class ApiCalls implements iApiCalls
     
     public function replaceAnswer($new_answer) {
         $this->new_answer = $new_answer;
-        foreach ($this->matches_array as $match) {
-            foreach ($match['answers'] as $temp_answer) {
-                if ($temp_answer['answer'][0] === $this->search_answer) {
-                    $temp_answer['answer'][0] = $this->new_answer;
+        $stinky = [];
+        foreach ($this->matches_array as $key1 => $val1) {
+            foreach ($val1 as $key2 => $val2) {
+                if ($key2 == 'answers') {
+                    foreach ($val2 as $key3 => $val3) {
+                        foreach ($val3 as $key4 => $val4) {
+                            if ($key4 == 'answer') {
+                                if ($val4[0] == $this->search_answer) {
+                                    $this->matches_array[$key1]['answers'][$key3]['answer'][0] = $this->new_answer;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
+        return $stinky;
     }
 }
 
