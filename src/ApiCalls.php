@@ -14,11 +14,14 @@ class ApiCalls implements iApiCalls
     public $matches_array;
     public $new_answer;
     
-    protected function baseCurl($key, $arg)
-    {
+    protected function baseCurl($arg_array) {
         $ch = \curl_init();
-        \curl_setopt($ch, \CURLOPT_URL, self::BASEURL . $arg);
-        \curl_setopt($ch, \CURLOPT_HTTPHEADER, array("X-NSONE-Key: $key"));
+        \curl_setopt($ch, \CURLOPT_URL, self::BASEURL . $arg_array['arg']);
+        \curl_setopt($ch, \CURLOPT_HTTPHEADER, array("X-NSONE-Key: {$arg_array['key']}"));
+        if (isset($arg_array['opt'])) {
+            \curl_setopt($ch, \CURLOPT_CUSTOMREQUEST, "POST");
+            \curl_setopt($ch, \CURLOPT_POSTFIELDS, $arg_array['opt']);
+        }
         \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
         $this->body = \json_decode(\curl_exec($ch), true);
         \curl_close($ch);
@@ -27,8 +30,7 @@ class ApiCalls implements iApiCalls
     
     public function keyValidate($key)
     {
-        $arg = "zones";
-        $body = self::baseCurl($key, $arg);
+        $body = self::baseCurl(["key" => $key, "arg" => "zones"]);
         if (array_key_exists('message', $body)) {
             $this->valid_key = \FALSE;
         } else {
@@ -48,14 +50,14 @@ class ApiCalls implements iApiCalls
     public function getRecords($zone) {
         $this->clean_zone = \filter_var($zone, \FILTER_SANITIZE_STRING);
         $zone_arg = "zones/$this->clean_zone";
-        $this->record_list = self::baseCurl($this->clean_key, $zone_arg);
+        $this->record_list = self::baseCurl(["key" => $this->clean_key, "arg" => $zone_arg]);
     }
     
     public function getMatches($answer)
     {
         $this->search_answer = $answer;
         $search_arg = "search?q=$answer&type=answers";
-        $record_array = $this->baseCurl($this->valid_key, $search_arg);
+        $record_array = self::baseCurl(["key" => $this->valid_key, "arg" => $search_arg]);
         if (\count($record_array) < 1) {
             unset($this->matches_array);
             $_SESSION['error'][] = "$answer is not associated with any records!";
@@ -66,7 +68,6 @@ class ApiCalls implements iApiCalls
     
     public function replaceAnswer($new_answer, $change_list) {
         $this->new_answer = $new_answer;
-        $stinky = [];
         foreach ($this->matches_array as $key1 => $val1) {
             foreach ($val1 as $key2 => $val2) {
                 if ($key2 == 'answers') {
@@ -83,39 +84,17 @@ class ApiCalls implements iApiCalls
             }
         }
         foreach ($this->matches_array as $post_records) {
-            $type = $post_records['type'];
-            $zone = $post_records['zone'];
-            $rec_name = $post_records['domain'];
+            if (\in_array($post_records['domain'], $change_list)) {
+                $arg = "{$post_records['zone']}/{$post_records['domain']}/{$post_records['type']}";
+                $json_up = \json_encode($post_records);
+                $body = self::baseCurl(["key" => $this->valid_key, "arg" => $arg, "opt" => $json_up]);
+                if (\array_key_exists('message', $body)) {
+                    $_SESSION['error'][] = "Invalid Input: {$body['message']}";
+                    exit;
+                }
+            }
         }
+        $_SESSION['info'][] = \count($change_list) . ((\count($change_list) < 2)?" record's":" records'") 
+                . " answers updated from $this->search_answer to $this->new_answer";
     }
 }
-
-/*
-$chand = curl_init();
-curl_setopt($chand, CURLOPT_URL, 'https://api.nsone.net/v1/zones');
-curl_setopt($chand, CURLOPT_HTTPHEADER, array("X-NSONE-Key: $key"));
-curl_setopt($chand, CURLOPT_RETURNTRANSFER, true);
-$a = json_decode(curl_exec($chand), true);
-foreach ($a as $zones) {
-     $b[] = $zones['zone'];
-}
-
-foreach ($b as $fullrec) {
-    $chand = curl_init();
-    curl_setopt($chand, CURLOPT_URL, 'https://api.nsone.net/v1/zones/'.$fullrec);
-    curl_setopt($chand, CURLOPT_HTTPHEADER, array("X-NSONE-Key: $key"));
-    curl_setopt($chand, CURLOPT_RETURNTRANSFER, true);
-    $c = json_decode(curl_exec($chand), true);
-    $list[] = $c;
-}
-
-foreach ($list as $d) {
-    $zone = $d['zone'];
-    foreach ($d['records'] as $e) {
-        $records[] = ['domain' => $e['domain'], 'type' => $e['type']];
-    }
-    $zonez[] = ['zone' => $d['zone'], $records];
-}
-
-print_r($zonez);
-*/
