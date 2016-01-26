@@ -5,6 +5,7 @@ namespace ns1\apiCheat;
 class ApiCalls implements iApiCalls
 {
     
+    protected $body;
     protected $zone_hold;
     public $valid_key;
     public $zone_list;
@@ -63,7 +64,7 @@ class ApiCalls implements iApiCalls
         }
     }
     
-    public function replaceAnswer($new_answer) {
+    public function replaceAnswer($new_answer, $change_list) {
         $this->new_answer = $new_answer;
         $stinky = [];
         foreach ($this->matches_array as $key1 => $val1) {
@@ -80,6 +81,11 @@ class ApiCalls implements iApiCalls
                     }
                 }
             }
+        }
+        foreach ($this->matches_array as $post_records) {
+            $type = $post_records['type'];
+            $zone = $post_records['zone'];
+            $rec_name = $post_records['domain'];
         }
     }
 }
