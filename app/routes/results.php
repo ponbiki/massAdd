@@ -16,11 +16,6 @@ $app->get('/results', function() use ($app) {
     
     $answer = $_SESSION['api']->fieldset;
     $status = $_SESSION['api']->status;
-    if ($_SESSION['api']->hide_rep === \TRUE) {
-        $hide = \TRUE;
-    } else {
-        $hide = \FALSE;
-    }
     $page = "Results";
     $meta = "Results Menu";
     
@@ -32,9 +27,10 @@ $app->get('/results', function() use ($app) {
         'loggedin' => $_SESSION['loggedin'],
         'records' => $records,
         'answer' => $answer,
-        'status' => $status,
-        'hide' => $hide
+        'status' => $status
     ]);
+    
+    echo"<pre style='color:white'>";print_r($_SESSION);echo"</pre>";
     
     cheat\Session::clear();    
     
