@@ -16,6 +16,7 @@ class ApiCalls implements iApiCalls
     public $fieldset;
     public $status;
     public $interim_answer;
+    public $hide_rep;
     
     protected function baseCurl($arg_array) {
         $ch = \curl_init();
@@ -62,6 +63,7 @@ class ApiCalls implements iApiCalls
     
     public function getMatches($answer)
     {
+        $this->hide_rep = \FALSE;
         $this->interim_answer = $this->search_answer = $answer;
         $this->fieldset = $this->search_answer;
         $this->status = "Records containing answer ";
@@ -77,6 +79,7 @@ class ApiCalls implements iApiCalls
     
     public function replaceAnswer($new_answer, $change_list)
     {
+        $this->hide_rep = \TRUE;
         $this->new_answer = $new_answer;
         foreach ($this->matches_array as $key1 => $val1) {
             foreach ($val1 as $key2 => $val2) {
@@ -101,7 +104,10 @@ class ApiCalls implements iApiCalls
                 $body = $this->baseCurl(["key" => $this->valid_key, "arg" => $arg, "opt" => $json_up]);
                 if (\array_key_exists('message', $body)) {
                     $_SESSION['error'][] = "$post_records->domain update failed -- Invalid Input: $body->message";
-                    break;
+                    $this->matches_array = [];
+                    $this->status = "Invalid change requested -- ";
+                    $this->fieldset = $body->message;
+                    return;
                 } else {
                     $temp_matches_array[] = $post_records;
                 }

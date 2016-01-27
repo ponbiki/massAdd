@@ -33,12 +33,14 @@
                         </label>
                     </p>
                 {% endfor %}
+                {% if not hide %}
                 <p title='Replacement Answer'>
                     <label for='new_answer'>
                         <input type='text' maxlength='253' name='new_answer' value='' placeholder='Enter replacement answer for {{ answer }}' style='max-width:320px'/>
                         <input type='submit' value='Replace'>
                     </label>
                 </p>
+                {% endif %}
                 </fieldset>
             </form>
         </div>
