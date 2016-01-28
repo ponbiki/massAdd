@@ -31,7 +31,9 @@
                         <label for='{{ check }}'>
                             {{ record['record'] }}
                         </label>
-                        <span style='font-weight:bold;color:yellowgreen;alignment-adjust'>Matched - {% for ip in record['answ'] %} &nbsp; {{ ip }} &nbsp; {% endfor %}</span>
+                        {% if not replaced %}
+                        <span style='font-weight:bold;color:yellowgreen;padding-left: 15px'>Matched on &nbsp; &rArr;{% for ip in record['answ'] %} &nbsp; {{ ip }} &nbsp; {% endfor %}</span>
+                        {% endif %}
                     </p>
                 {% endfor %}
                 {% if not hide %}

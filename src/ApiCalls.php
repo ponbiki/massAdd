@@ -17,6 +17,7 @@ class ApiCalls implements iApiCalls
     public $status;
     public $interim_answer;
     public $rep_hide;
+    public $replaced;
     
     protected function baseCurl($arg_array) {
         $ch = \curl_init();
@@ -75,6 +76,7 @@ class ApiCalls implements iApiCalls
         } else {
             $this->matches_array = $record_array;
         }
+        $this->replaced = \FALSE;
     }
     
     public function replaceAnswer($new_answer, $change_list)
@@ -119,5 +121,6 @@ class ApiCalls implements iApiCalls
         $_SESSION['info'][] = \count($this->matches_array) . ((\count($change_list) < 2)?" record's":" records'") 
                 . " answers updated from $this->interim_answer to $this->new_answer";
         $this->interim_answer = $this->new_answer;
+        $this->replaced = \TRUE;
     }
 }

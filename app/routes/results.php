@@ -8,6 +8,7 @@ $app->get('/results', function() use ($app) {
         $app->redirect('/');
     }
     
+    $replaced = $_SESSION['api']->replaced;
     $records = [];
     $ans_match = [];
     
@@ -42,7 +43,8 @@ $app->get('/results', function() use ($app) {
         'records' => $records,
         'answer' => $answer,
         'status' => $status,
-        'hide' => $hide
+        'hide' => $hide,
+        'replaced' => $replaced
     ]);
     
     cheat\Session::clear();    
