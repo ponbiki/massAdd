@@ -117,9 +117,9 @@ class ApiCalls implements iApiCalls
         }
         $this->matches_array = $temp_matches_array;
         $this->fieldset = $this->new_answer;
-        $this->status = "Records changed to ";
-        $_SESSION['info'][] = \count($this->matches_array) . ((\count($change_list) < 2)?" record's":" records'") 
-                . " answers updated from $this->interim_answer to $this->new_answer";
+        $this->status = "Records with answers changed to ";
+        $_SESSION['info'][] = \count($this->matches_array) . ((\count($change_list) < 2)?" record":" records") 
+                . " with answers matching $this->interim_answer changed to $this->new_answer";
         $this->interim_answer = $this->new_answer;
         $this->replaced = \TRUE;
     }

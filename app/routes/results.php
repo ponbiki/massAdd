@@ -44,7 +44,7 @@ $app->get('/results', function() use ($app) {
         'hide' => $hide,
         'replaced' => $replaced
     ]);
-    
+
     cheat\Session::clear();    
     
 })->name('results');

@@ -13,6 +13,7 @@ $app->post('/replace', function () use ($app) {
         $clean_change_records = [];
         $app->redirect('/menu');
     }
+    
     $clean_new_answer = \filter_var(($app->request()->post('new_answer')), \FILTER_SANITIZE_STRING);
         
     if ($clean_new_answer === "") {
