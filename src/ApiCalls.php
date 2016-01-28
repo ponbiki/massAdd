@@ -85,11 +85,11 @@ class ApiCalls implements iApiCalls
         $this->new_answer = $new_answer;
         foreach ($this->matches_array as $key1 => $val1) {
             foreach ($val1 as $key2 => $val2) {
-                if ($key2 == 'answers') {
+                if ($key2 === 'answers') {
                     foreach ($val2 as $key3 => $val3) {
                         foreach ($val3 as $key4 => $val4) {
-                            if ($key4 == 'answer') {
-                                if ($val4[0] == $this->search_answer) {
+                            if ($key4 === 'answer') {
+                                if (\preg_match("/$this->search_answer/i", $val4[0])) {
                                      $this->matches_array[$key1]->answers[$key3]->answer[0] = $this->new_answer;
                                 }
                             }
