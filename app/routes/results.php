@@ -10,8 +10,14 @@ $app->get('/results', function() use ($app) {
     
     $records = [];
     
+    unset($_SESSION['weeny']);
     foreach ($_SESSION['api']->matches_array as $match) {
         $records[] = $match->domain;
+        foreach ($match->answers as $answ) {
+            if (preg_match("/{$_SESSION['api']->search_answer}/i", $answ->answer[0])) {
+                $_SESSION['weeny'][] = $answ->answer[0];
+            }
+        }
     }
     
     $answer = $_SESSION['api']->fieldset;
@@ -35,6 +41,8 @@ $app->get('/results', function() use ($app) {
         'status' => $status,
         'hide' => $hide
     ]);
+    
+    echo"<pre style='color:white'>";print_r($_SESSION/*['api']->matches_array*/);echo"</pre>";
     
     cheat\Session::clear();    
     
