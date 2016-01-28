@@ -26,6 +26,10 @@
             $(function() {
                 $( "#tabs" ).tabs();
                 $( document ).tooltip({
+                    show: {
+                        effect: "slideDown",
+                        delay: 1000
+                    },
                     track: true
                 });
                 $( "input[type=submit], a, .jbutton" ).button();
