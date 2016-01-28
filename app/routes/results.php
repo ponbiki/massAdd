@@ -10,7 +10,6 @@ $app->get('/results', function() use ($app) {
     
     $replaced = $_SESSION['api']->replaced;
     $records = [];
-    $ans_match = [];
     
     unset($_SESSION['weeny']);
     $rec_count = 0;
