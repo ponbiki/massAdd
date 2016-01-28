@@ -1,4 +1,4 @@
-a {
+/*a {
     color: #ffd88c;
     font-weight: bold;
     text-decoration: none;
@@ -6,7 +6,7 @@ a {
 a:hover, a:active {
     color: #fff;
     text-decoration: none;
-}
+}*/
 @-webkit-keyframes rotateInLeft {
     from {
         transform-origin: 0% 0%;
@@ -78,8 +78,6 @@ body {
     background: #000;
     background-image: url(../img/dark_embroidery.png);
     background-repeat: repeat;
-    /*transform-origin: 50% 100%;*/
-    /*transform: rotateX(25deg);*/
 }
 ul {
     margin: 5px;
