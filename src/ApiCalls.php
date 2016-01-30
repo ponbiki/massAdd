@@ -101,7 +101,7 @@ class ApiCalls implements iApiCalls
         $temp_matches_array = [];
         foreach ($this->matches_array as $post_records) {
             if (\in_array($post_records->domain, $change_list)) {
-                $arg = "zones/{$post_records->zone}/{$post_records->domain}/{$post_records->type}";
+                $arg = "zones/$post_records->zone/$post_records->domain/$post_records->type";
                 $json_up = \json_encode($post_records);
                 $body = $this->baseCurl(["key" => $this->valid_key, "arg" => $arg, "opt" => $json_up]);
                 if (\array_key_exists('message', $body)) {
