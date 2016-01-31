@@ -6,3 +6,4 @@ require 'routes/logout.php';
 require 'routes/search.php';
 require 'routes/results.php';
 require 'routes/replace.php';
+require 'routes/rdnsSearch.php';

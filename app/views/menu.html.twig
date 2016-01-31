@@ -10,9 +10,19 @@
     <div id='tabs'>
         <ul>
             <li><a href='#search' title='Answer Search'>Answer Search</a></li>
+            <li><a href='#clean' title='Clean rDNS'>rDNS Cleanup</a></li>
         </ul>
         <div id='search'>
             <form method='post' action='/search'>
+                <fieldset>
+                    <legend>Search for an answer</legend>
+                    <p><label for="answer"></label><input type='text' maxlength='253' id="answer" name="answer" title="Enter Answer" placeholder="Enter Answer to Search" style='max-width:320px'/></p>
+                    <input type='submit' value='Search' title="Search"/>
+                </fieldset>
+            </form>
+        </div>
+        <div id='clean'>
+            <form method='post' action='/rndsSearch'>
                 <fieldset>
                     <legend>Search for an answer</legend>
                     <p><label for="answer"></label><input type='text' maxlength='253' id="answer" name="answer" title="Enter Answer" placeholder="Enter Answer to Search" style='max-width:320px'/></p>
