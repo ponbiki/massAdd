@@ -129,24 +129,28 @@ class ApiCalls implements iApiCalls
     
     public function findOrphans()
     {
+        unset($_SESSION['derp']);
         $this->revZones();
         foreach ($this->rev_zones as $zone) {
             $this->getRecords($zone);
             foreach ($this->record_list->records as $record) {
-                $pieces = \explode('.', $record->domain);
-                $param = $pieces[3]. '.' .$pieces[2]. '.' .$pieces[1]. '.' .$pieces[0];
-                $search_arg = "search?q=$param&type=answers";
-                $record_array = self::baseCurl(["key" => $this->valid_key, "arg" => $search_arg]);
-                if (\count($record_array) < 1) {
-                    $this->orphan_array[]['zone'] = $zone;
-                    $this->orphan_array[]['record'] = $record;
-                }
-                if (\count($this->orphan_array) < 1) {
-                    $_SESSION['info'][] = "There are no orphaned PTR records.";
-                    $this->orphans = \FALSE;
-                } else {
-                    $_SESSION['info'][] = \count($this->orphan_array) . " orphaned PTR records found!";
-                    $this->orphans = \TRUE;
+                if ($record->type === 'PTR') {
+                    $pieces = \explode('.', $record->domain);
+                    $param = $pieces[3]. '.' .$pieces[2]. '.' .$pieces[1]. '.' .$pieces[0];
+                    $search_arg = "search?q=$param&type=answers";
+                    $_SESSION['derp'][] = $search_arg;                
+                    $record_array = self::baseCurl(["key" => $this->valid_key, "arg" => $search_arg]);
+                    if (\count($record_array) < 1) {
+                        $this->orphan_array[]['zone'] = $zone;
+                        $this->orphan_array[]['record'] = $record;
+                    }
+                    if (\count($this->orphan_array) < 1) {
+                        $_SESSION['info'][] = "There are no orphaned PTR records.";
+                        $this->orphans = \FALSE;
+                    } else {
+                        $_SESSION['info'][] = \count($this->orphan_array) . " orphaned PTR records found!";
+                        $this->orphans = \TRUE;
+                    }
                 }
             }
         }
