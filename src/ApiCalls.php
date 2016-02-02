@@ -7,6 +7,7 @@ class ApiCalls implements iApiCalls
     
     protected $body;
     protected $zone_hold;
+    protected $rev_zones;
     public $valid_key;
     public $zone_list;
     public $record_list;
@@ -18,6 +19,8 @@ class ApiCalls implements iApiCalls
     public $interim_answer;
     public $rep_hide;
     public $replaced;
+    public $orphan_array;
+    public $orphans;    
     
     protected function baseCurl($arg_array) {
         $ch = \curl_init();
@@ -48,7 +51,7 @@ class ApiCalls implements iApiCalls
         }
     }
     
-    private function zoneList($zones_array)
+    protected function zoneList($zones_array)
     {
         foreach ($zones_array as $zones) {
             $this->zone_hold[] = $zones->zone;
@@ -122,5 +125,39 @@ class ApiCalls implements iApiCalls
                 . " with answers matching $this->interim_answer changed to $this->new_answer";
         $this->interim_answer = $this->new_answer;
         $this->replaced = \TRUE;
+    }
+    
+    public function findOrphans()
+    {
+        $this->revZones();
+        foreach ($this->rev_zones as $zone) {
+            $this->getRecords($zone);
+            foreach ($this->record_list as $record) {
+                $pieces = \explode('.', $record);
+                $param = \implode('.', $pieces[3].$pieces[2].$pieces[1].$pieces[0]);
+                $search_arg = "search?q=$param&type=answers";
+                $record_array = self::baseCurl(["key" => $this->valid_key, "arg" => $search_arg]);
+                if (\count($record_array) < 1) {
+                    $this->orphan_array[]['zone'] = $zone;
+                    $this->orphan_array[]['record'] = $record;
+                }
+                if (\count($this->orphan_array) < 1) {
+                    $_SESSION['info'][] = "There are no orphaned PTR records.";
+                    $this->orphans = \FALSE;
+                } else {
+                    $_SESSION['info'][] = \count($this->orphan_array) . " orphaned PTR records found!";
+                    $this->orphans = \TRUE;
+                }
+            }
+        }
+    }
+    
+    protected function revZones()
+    {
+        foreach ($this->zone_hold as $zone) {
+            if (end(explode(".", $zone)) === "arpa") {
+                $this->rev_zones[] = $zone;
+            }
+        }
     }
 }

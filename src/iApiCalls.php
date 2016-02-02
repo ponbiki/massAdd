@@ -9,4 +9,5 @@ interface iApiCalls
     public function getRecords($zone);
     public function getMatches($answer);
     public function replaceAnswer($new_answer, $change_list);
+    public function findOrphans();
 }
