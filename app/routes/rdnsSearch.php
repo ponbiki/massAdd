@@ -13,7 +13,7 @@ $app->post('/rdnsSearch', function () use ($app) {
         $_SESSION['info'][] = "Found ". \count($_SESSION['api']->matches_array) . " records containing {$_SESSION['api']->search_answer}";
         $app->redirect('/results');
     } else {
-        $app->redirect('/menu');
+        $app->redirect('/orphans');
     }
     
 });
