@@ -1,1 +1,102 @@
-{# empty Twig template #}
+{% extends "base.html.twig" %}
+{% block title %}{{ page }}{% endblock %}
+{% block head %}
+    {{ parent() }}
+    {% block keywords %}
+        <meta name='keywords' content='NS1, NSONE, api cheat {{ meta }}'>
+    {% endblock %}
+{% endblock %}
+{% block content %}
+    <div id='tabs'>
+        <ul>
+            <li><a href='#results' title='Match Results'>Match Results</a></li>
+            <li><a href='#search' title='Answer Search'>Answer Search</a></li>
+        </ul>
+        <div id='results'>
+            <form method='post' action='/replace'>
+                <fieldset>
+                    <legend>{{ status }} <big><big style='color:#EB006B'>{{ answer }}</big></big></legend>
+                    <div id="dialog1" title="Tip">
+                        <p>Click on any records you want to unselect to prevent them from being changed.  At least one record must remain selected to update answers.  Note: you cannot change record types (e.g. A record to CNAME) when changing answers.</p>
+                    </div>
+                    <a id="opener1" class="ui-state-default ui-corner-all tip" title="Change Record Help" style="width:19px;height:19px;padding:0px;margin:0px;font-size:1pt;">
+                        <span class="ui-icon ui-icon-help"></span>
+                    </a>
+                {% set x = 0 %}
+                {% for record in records %}
+                    {% set x = x + 1 %}
+                    {% set check = "check" ~ x %}
+                    <p title='{{ record['record'] }}'>
+                        <input type='checkbox' class='checkbox' id='{{ check }}' name='change_record[]' value='{{ record['record'] }}' checked/>
+                        <label for='{{ check }}'>
+                            {{ record['record'] }}
+                        </label>
+                        {% if not replaced %}
+                        <span style='font-weight:bold;color:yellowgreen;padding-left: 15px'>Matched on &nbsp; &rArr;{% for ip in record['answ'] %} &nbsp; {{ ip }} &nbsp; {% endfor %}</span>
+                        {% endif %}
+                    </p>
+                {% endfor %}
+                {% if not hide %}
+                <p title='Replacement Answer'>
+                    <label for='new_answer'>
+                        <input type='text' maxlength='253' name='new_answer' value='' placeholder='Enter replacement answer for answers containing {{ answer }}' style='max-width:320px'/>
+                        <input type='submit' value='Replace'>
+                    </label>
+                </p>
+                {% endif %}
+                </fieldset>
+            </form>
+        </div>
+        <div id='search'>
+            <form method='post' action='/search'>
+                <fieldset>
+                    <legend>Search for an answer</legend>
+                    <p><label for="answer"></label><input type='text' maxlength='253' id="answer" name="answer" title="Enter Answer" placeholder="Enter Answer to Search" style='max-width:320px'/></p>
+                    <input type='submit' value='Search' title="Search"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    {% block scripts %}
+        <script type='text/javascript'>
+            var checkboxes = $( "input[type='checkbox']" ),
+                submitButt = $( "input[type='submit']" );
+            checkboxes.click(function() {
+                submitButt.attr("disabled", !checkboxes.is(":checked"));
+            });
+            $(function() {
+                $( "#tabs" ).tabs();
+                $( document ).tooltip({
+                    show: {
+                        effect: "slideDown",
+                        delay: 1000
+                    },
+                    track: true
+                });
+                $( "input[type=checkbox], a, button" ).button();
+                $( "input[type=submit], a, .jbutton" ).button();
+                $( "#dialog1" ).dialog({
+                    autoOpen: false,
+                    show: {
+                        effect: "blind",
+                        duration: 1000
+                    },
+                    hide: {
+                        effect: "fold",
+                        duration: 1000
+                    }
+                });
+                $( "#opener1" ).click(function() {
+                    $( "#dialog1").dialog( "open" );
+                });
+            });
+            $(document).ready(function() {
+                setTimeout(function() {
+                    $( ".notify" ).fadeOut(1000, function () {
+                        $( ".notify" ).css({"visibility":"hidden","display":"block"}).slideUp();
+                    });
+                }, 3500);
+            });
+        </script>
+    {% endblock %}                
+{% endblock %}

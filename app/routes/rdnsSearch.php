@@ -6,7 +6,7 @@ $app->post('/rdnsSearch', function () use ($app) {
         $app->redirect('/');
     }
        
-    $zones = $_SESSION['api']->findOrphans();
+    $_SESSION['api']->findOrphans();
     
     $app->redirect('/menu');
     

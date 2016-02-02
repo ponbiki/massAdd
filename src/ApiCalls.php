@@ -129,6 +129,7 @@ class ApiCalls implements iApiCalls
     
     public function findOrphans()
     {
+        $x = 0;
         if (!empty($this->orphan_array)) {
             unset($this->orphan_array);
         }
@@ -147,7 +148,10 @@ class ApiCalls implements iApiCalls
                     } elseif (\count($record_array) >= 1) {
                         continue;
                     } else {
-                       $this->orphan_array[] = [$zone, $param];
+                       $this->orphan_array[$x]['zone'] = $zone;
+                       $this->orphan_array[$x]['record'] = $record->domain;
+                       $this->orphan_array[$x]['answer'] = $param;
+                       $x++;
                     }
                 }
             }
