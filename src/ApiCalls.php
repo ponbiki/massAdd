@@ -130,11 +130,10 @@ class ApiCalls implements iApiCalls
     public function findOrphans()
     {
         $this->revZones();
-        $_SESSION['stupid_records'] = $this->rev_zones; //this is returning a repaeating array of the same thing!
         foreach ($this->rev_zones as $zone) {
             $this->getRecords($zone);
-            foreach ($this->record_list as $record) {
-                $pieces = \explode('.', $record);
+            foreach ($this->record_list->records as $record) {
+                $pieces = \explode('.', $record->domain);
                 $param = $pieces[3]. '.' .$pieces[2]. '.' .$pieces[1]. '.' .$pieces[0];
                 $search_arg = "search?q=$param&type=answers";
                 $record_array = self::baseCurl(["key" => $this->valid_key, "arg" => $search_arg]);
@@ -155,6 +154,7 @@ class ApiCalls implements iApiCalls
     
     protected function revZones()
     {
+        unset($this->rev_zones);
         foreach ($this->zone_hold as $zone) {
             if (end(explode(".", $zone)) === "arpa") {
                 $this->rev_zones[] = $zone;
