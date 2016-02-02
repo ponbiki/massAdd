@@ -130,6 +130,9 @@ class ApiCalls implements iApiCalls
     public function findOrphans()
     {
         unset($_SESSION['derp']);
+        if (!empty($this->orphan_array)) {
+            unset($this->orphan_array);
+        }
         $this->revZones();
         foreach ($this->rev_zones as $zone) {
             $this->getRecords($zone);
@@ -144,14 +147,14 @@ class ApiCalls implements iApiCalls
                         $this->orphan_array[]['zone'] = $zone;
                         $this->orphan_array[]['record'] = $record;
                     }
-                    if (\count($this->orphan_array) < 1) {
-                        $_SESSION['info'][] = "There are no orphaned PTR records.";
-                        $this->orphans = \FALSE;
-                    } else {
-                        $_SESSION['info'][] = \count($this->orphan_array) . " orphaned PTR records found!";
-                        $this->orphans = \TRUE;
-                    }
                 }
+            }
+            if (\count($this->orphan_array) < 1) {
+                $_SESSION['info'][] = "There are no orphaned PTR records.";
+                $this->orphans = \FALSE;
+            } else {
+                $_SESSION['info'][] = \count($this->orphan_array) . " orphaned PTR records found!";
+                $this->orphans = \TRUE;
             }
         }
     }
