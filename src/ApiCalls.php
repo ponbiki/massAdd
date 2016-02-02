@@ -129,7 +129,6 @@ class ApiCalls implements iApiCalls
     
     public function findOrphans()
     {
-        unset($_SESSION['derp']);
         if (!empty($this->orphan_array)) {
             unset($this->orphan_array);
         }
@@ -141,15 +140,18 @@ class ApiCalls implements iApiCalls
                     $pieces = \explode('.', $record->domain);
                     $param = $pieces[3]. '.' .$pieces[2]. '.' .$pieces[1]. '.' .$pieces[0];
                     $search_arg = "search?q=$param&type=answers";
-                    $_SESSION['derp'][] = $search_arg;                
                     $record_array = self::baseCurl(["key" => $this->valid_key, "arg" => $search_arg]);
-                    if (\count($record_array) < 1) {
-                        $this->orphan_array[]['zone'] = $zone;
-                        $this->orphan_array[]['record'] = $record;
+                    if (\array_key_exists('message', $record_array)) {
+                        $_SESSION['error'][] = "There was an error searching for $param. Please contact support";
+                        return;
+                    } elseif (\count($record_array) >= 1) {
+                        continue;
+                    } else {
+                       $this->orphan_array[] = [$zone, $param];
                     }
                 }
             }
-            if (\count($this->orphan_array) < 1) {
+            if (empty($this->orphan_array)) {
                 $_SESSION['info'][] = "There are no orphaned PTR records.";
                 $this->orphans = \FALSE;
             } else {
