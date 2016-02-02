@@ -8,12 +8,6 @@ $app->post('/rdnsSearch', function () use ($app) {
        
     $zones = $_SESSION['api']->findOrphans();
     
-    echo"<pre style='color:white'>";\print_r($zones);echo"</pre>";
-    
-    /*if () {
-       
-    } else {
-        $app->redirect('/orphans');
-    }*/
+    $app->redirect('/menu');
     
 });

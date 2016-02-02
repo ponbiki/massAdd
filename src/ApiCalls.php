@@ -62,7 +62,7 @@ class ApiCalls implements iApiCalls
     public function getRecords($zone) {
         $this->clean_zone = \filter_var($zone, \FILTER_SANITIZE_STRING);
         $zone_arg = "zones/$this->clean_zone";
-        $this->record_list = self::baseCurl(["key" => $this->clean_key, "arg" => $zone_arg]);
+        $this->record_list = self::baseCurl(["key" => $this->valid_key, "arg" => $zone_arg]);
     }
     
     public function getMatches($answer)
@@ -130,11 +130,12 @@ class ApiCalls implements iApiCalls
     public function findOrphans()
     {
         $this->revZones();
+        $_SESSION['stupid_records'] = $this->rev_zones; //this is returning a repaeating array of the same thing!
         foreach ($this->rev_zones as $zone) {
             $this->getRecords($zone);
             foreach ($this->record_list as $record) {
                 $pieces = \explode('.', $record);
-                $param = \implode('.', $pieces[3].$pieces[2].$pieces[1].$pieces[0]);
+                $param = $pieces[3]. '.' .$pieces[2]. '.' .$pieces[1]. '.' .$pieces[0];
                 $search_arg = "search?q=$param&type=answers";
                 $record_array = self::baseCurl(["key" => $this->valid_key, "arg" => $search_arg]);
                 if (\count($record_array) < 1) {
