@@ -22,26 +22,24 @@
                         <span class="ui-icon ui-icon-help"></span>
                     </a>
                 {% set x = 0 %}
-                {% for record in records %}
+                {% for orphan in orphans %}
                     {% set x = x + 1 %}
                     {% set check = "check" ~ x %}
-                    <p title='{{ record['record'] }}'>
-                        <input type='checkbox' class='checkbox' id='{{ check }}' name='change_record[]' value='{{ record['record'] }}' checked/>
+                    <p title='{{ orphan['record'] }}'>
+                        <input type='checkbox' class='checkbox' id='{{ check }}' name='change_record[]' value='{{ orphan['record'] }}' checked/>
                         <label for='{{ check }}'>
-                            {{ record['record'] }}
+                            {{ orphan['record'] }}
                         </label>
                         {% if not replaced %}
-                        <span style='font-weight:bold;color:yellowgreen;padding-left: 15px'>Matched on &nbsp; &rArr;{% for ip in record['answ'] %} &nbsp; {{ ip }} &nbsp; {% endfor %}</span>
+                        <span style='font-weight:bold;color:yellowgreen;padding-left: 15px'>Existing answer &nbsp; {{ orphan['answer'] }} &nbsp; From Zone &nbsp; {{ orphan['zone'] }} &nbsp;</span>
                         {% endif %}
                     </p>
                 {% endfor %}
-                {% if not hide %}
-                <p title='Replacement Answer'>
-                    <label for='new_answer'>
+                <p title='Delete Orphans'>
+                    <label for='del_orphan'>
                         <input type='submit' value='Delete'>
                     </label>
                 </p>
-                {% endif %}
                 </fieldset>
             </form>
         </div>

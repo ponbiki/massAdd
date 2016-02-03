@@ -12,6 +12,10 @@ $app->get('/orphans', function() use ($app) {
     $status = $_SESSION['api']->status;
     $page = "Orphaned PTR's";
     $meta = "Orphaned PTR Records";
+    $orphans = [];
+    foreach ($_SESSION['api']->orphan_array as $orphan) {
+        $orphans[] = $orphan;
+    }
     
     $app->render('orphans.html.twig', [
         'page' => $page,
@@ -20,7 +24,8 @@ $app->get('/orphans', function() use ($app) {
         'error' => $_SESSION['error'],
         'loggedin' => $_SESSION['loggedin'],
         'answer' => $answer,
-        'status' => $status
+        'status' => $status,
+        'orphans' => $orphans
     ]);
 
     cheat\Session::clear();    

@@ -84,6 +84,8 @@ class ApiCalls implements iApiCalls
     
     public function replaceAnswer($new_answer, $change_list)
     {
+        unset($this->fieldset);
+        unset($this->status);
         $this->rep_hide = \TRUE;
         $this->new_answer = $new_answer;
         foreach ($this->matches_array as $key1 => $val1) {
@@ -129,6 +131,8 @@ class ApiCalls implements iApiCalls
     
     public function findOrphans()
     {
+        unset($this->fieldset);
+        unset($this->status);
         $x = 0;
         if (!empty($this->orphan_array)) {
             unset($this->orphan_array);
@@ -161,6 +165,8 @@ class ApiCalls implements iApiCalls
             $this->orphans = \FALSE;
         } else {
             $_SESSION['info'][] = \count($this->orphan_array) . " orphaned PTR records found!";
+            $this->fieldset = count($this->orphan_array);
+            $this->status = "Total orphaned PTR records: ";
             $this->orphans = \TRUE;
         }
     }
