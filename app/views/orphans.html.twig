@@ -10,7 +10,6 @@
     <div id='tabs'>
         <ul>
             <li><a href='#results' title='Match Results'>Match Results</a></li>
-            <li><a href='#search' title='Answer Search'>Answer Search</a></li>
         </ul>
         <div id='results'>
             <form method='post' action='/replace'>
@@ -44,15 +43,6 @@
                     </label>
                 </p>
                 {% endif %}
-                </fieldset>
-            </form>
-        </div>
-        <div id='search'>
-            <form method='post' action='/search'>
-                <fieldset>
-                    <legend>Search for an answer</legend>
-                    <p><label for="answer"></label><input type='text' maxlength='253' id="answer" name="answer" title="Enter Answer" placeholder="Enter Answer to Search" style='max-width:320px'/></p>
-                    <input type='submit' value='Search' title="Search"/>
                 </fieldset>
             </form>
         </div>

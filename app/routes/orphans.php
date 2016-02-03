@@ -1,8 +1,34 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+use ns1\apiCheat as cheat;
 
+$app->get('/orphans', function() use ($app) {
+    
+    if ((!array_key_exists('loggedin', $_SESSION)) || ($_SESSION['loggedin'] !== \TRUE)) {
+        $app->redirect('/');
+    }
+    
+    $answer = $_SESSION['api']->fieldset;
+    $status = $_SESSION['api']->status;
+    if ($_SESSION['api']->rep_hide === \TRUE) {
+        $hide = \TRUE;
+    } else {
+        $hide = \FALSE;
+    }
+    $page = "Orphaned PTR's";
+    $meta = "Orphaned PTR Records";
+    
+    $app->render('orphans.html.twig', [
+        'page' => $page,
+        'meta' => $meta,
+        'info' => $_SESSION['info'],
+        'error' => $_SESSION['error'],
+        'loggedin' => $_SESSION['loggedin'],
+        'answer' => $answer,
+        'status' => $status,
+        'hide' => $hide
+    ]);
+
+    cheat\Session::clear();    
+    
+})->name('orphans');

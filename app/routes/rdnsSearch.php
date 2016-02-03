@@ -8,6 +8,6 @@ $app->post('/rdnsSearch', function () use ($app) {
        
     $_SESSION['api']->findOrphans();
     
-    $app->redirect('/menu');
+    $app->redirect('/orphans');
     
 });
