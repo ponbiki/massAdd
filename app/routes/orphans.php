@@ -10,11 +10,6 @@ $app->get('/orphans', function() use ($app) {
     
     $answer = $_SESSION['api']->fieldset;
     $status = $_SESSION['api']->status;
-    if ($_SESSION['api']->rep_hide === \TRUE) {
-        $hide = \TRUE;
-    } else {
-        $hide = \FALSE;
-    }
     $page = "Orphaned PTR's";
     $meta = "Orphaned PTR Records";
     
@@ -25,8 +20,7 @@ $app->get('/orphans', function() use ($app) {
         'error' => $_SESSION['error'],
         'loggedin' => $_SESSION['loggedin'],
         'answer' => $answer,
-        'status' => $status,
-        'hide' => $hide
+        'status' => $status
     ]);
 
     cheat\Session::clear();    
