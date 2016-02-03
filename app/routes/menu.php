@@ -19,8 +19,6 @@ $app->get('/menu', function() use ($app) {
         'loggedin' => $_SESSION['loggedin']
     ]);
     
-    echo"<pre style='color:white'>";\print_r($_SESSION);echo"</pre>";
-    
     cheat\Session::clear();    
     
 })->name('menu');
