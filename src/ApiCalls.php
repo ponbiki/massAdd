@@ -155,18 +155,20 @@ class ApiCalls implements iApiCalls
                     }
                 }
             }
-            if (empty($this->orphan_array)) {
-                $_SESSION['info'][] = "There are no orphaned PTR records.";
-                $this->orphans = \FALSE;
-            } else {
-                $_SESSION['info'][] = \count($this->orphan_array) . " orphaned PTR records found!";
-                $this->orphans = \TRUE;
-            }
+        }
+        if (empty($this->orphan_array)) {
+            $_SESSION['info'][] = "There are no orphaned PTR records.";
+            $this->orphans = \FALSE;
+        } else {
+            $_SESSION['info'][] = \count($this->orphan_array) . " orphaned PTR records found!";
+            $this->orphans = \TRUE;
         }
     }
     
     protected function revZones()
     {
+        unset($this->zone_hold);
+        self::keyValidate($this->valid_key);
         unset($this->rev_zones);
         foreach ($this->zone_hold as $zone) {
             if (end(explode(".", $zone)) === "arpa") {
