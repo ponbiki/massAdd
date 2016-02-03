@@ -8,7 +8,7 @@ $app->post('/rdnsSearch', function () use ($app) {
        
     $_SESSION['api']->findOrphans();
     
-    if ($this->orphans === \False) {
+    if ($_SESSION['api']->orphans === \False) {
         $app->redirect('/menu');
     } else {
         $app->redirect('/orphans');
