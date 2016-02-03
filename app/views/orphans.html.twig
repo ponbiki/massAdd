@@ -16,7 +16,7 @@
                 <fieldset>
                     <legend>{{ status }} <big><big style='color:#EB006B'>{{ answer }}</big></big></legend>
                     <div id="dialog1" title="Tip">
-                        <p>Click on any records you want to unselect to prevent them from being changed.  At least one record must remain selected to update answers.  Note: you cannot change record types (e.g. A record to CNAME) when changing answers.</p>
+                        <p>Click on any records you want to unselect to prevent them from being deleted.  At least one record must remain selected to delete answers.</p>
                     </div>
                     <a id="opener1" class="ui-state-default ui-corner-all tip" title="Change Record Help" style="width:19px;height:19px;padding:0px;margin:0px;font-size:1pt;">
                         <span class="ui-icon ui-icon-help"></span>
@@ -37,7 +37,7 @@
                 {% endfor %}
                 <p title='Delete Orphans'>
                     <label for='del_orphan'>
-                        <input type='submit' value='Delete'>
+                        <input type='submit' id='del_orphan' value='Delete'>
                     </label>
                 </p>
                 </fieldset>
