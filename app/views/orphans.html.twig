@@ -31,7 +31,7 @@
                             {{ orphan['record'] }}
                         </label>
                         {% if not replaced %}
-                        <span style='font-weight:bold;color:yellowgreen;padding-left: 15px'>Existing answer &nbsp; {{ orphan['answer'] }} &nbsp; From Zone &nbsp; {{ orphan['zone'] }} &nbsp;</span>
+                            <span style='font-weight:bold;color:yellowgreen;padding-left: 15px'>No existing answer &nbsp; <big>{{ orphan['answer'] }}</big> &nbsp; in any forward records.</span>
                         {% endif %}
                     </p>
                 {% endfor %}
