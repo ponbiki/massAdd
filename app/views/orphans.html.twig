@@ -9,10 +9,10 @@
 {% block content %}
     <div id='tabs'>
         <ul>
-            <li><a href='#results' title='Match Results'>Match Results</a></li>
+            <li><a href='#results' title='Unpaired PTRs'>Unpaired PTR's</a></li>
         </ul>
         <div id='results'>
-            <form method='post' action='/delPtr'>
+            <form method='post' action='/del_orphan'>
                 <fieldset>
                     <legend>{{ status }} <big><big style='color:#EB006B'>{{ answer }}</big></big></legend>
                     <div id="dialog1" title="Tip">
@@ -26,7 +26,7 @@
                     {% set x = x + 1 %}
                     {% set check = "check" ~ x %}
                     <p title='{{ orphan['record'] }}'>
-                        <input type='checkbox' class='checkbox' id='{{ check }}' name='change_record[]' value='{{ orphan['record'] }}' checked/>
+                        <input type='checkbox' class='checkbox' id='{{ check }}' name='del_records[]' value='{{ orphan['record'] }}' checked/>
                         <label for='{{ check }}'>
                             {{ orphan['record'] }}
                         </label>

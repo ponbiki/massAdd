@@ -34,6 +34,9 @@ class ApiCalls implements iApiCalls
             \curl_setopt($ch, \CURLOPT_FOLLOWLOCATION, true);
             \curl_setopt($ch, \CURLOPT_SSL_VERIFYPEER, false);
         }
+        if (isset($arg_array['del'])) {
+            \curl_setopt($ch, \CURLOPT_CUSTOMREQUEST, "DELETE");
+        }
         \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
         $this->body = \json_decode(\curl_exec($ch));
         \curl_close($ch);
@@ -181,5 +184,23 @@ class ApiCalls implements iApiCalls
                 $this->rev_zones[] = $zone;
             }
         }
+    }
+    
+    public function delPtr($del_list)
+    {
+        $holder = [];
+        foreach ($this->orphan_array as $orphan) {
+            if (\in_array($orphan['record'], $del_list)) {
+                $arg = "zones/{$orphan['zone']}/{$orphan['record']}/PTR";
+                $body = self::baseCurl(["key" => $this->valid_key, "arg" => $arg, "del" => \TRUE]);
+                if (\array_key_exists('message', $body)) {
+                    $_SESSION['error'][] = "There was a problem deleting {$orphan['record']}.";
+                } else {
+                    $holder[] = $orphan['record'];
+                }
+            }
+        }
+        $number = \count($holder);
+        $_SESSION['info'][] = "$number PTR records deleted.";
     }
 }

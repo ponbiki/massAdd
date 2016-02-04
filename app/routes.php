@@ -8,3 +8,4 @@ require 'routes/results.php';
 require 'routes/replace.php';
 require 'routes/rdnsSearch.php';
 require 'routes/orphans.php';
+require 'routes/del_orphan.php';

@@ -10,4 +10,5 @@ interface iApiCalls
     public function getMatches($answer);
     public function replaceAnswer($new_answer, $change_list);
     public function findOrphans();
+    public function delPtr($del_list);
 }
