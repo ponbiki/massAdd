@@ -143,22 +143,24 @@ class ApiCalls implements iApiCalls
         $this->revZones();
         foreach ($this->rev_zones as $zone) {
             $this->getRecords($zone);
-            foreach ($this->record_list->records as $record) {
-                if ($record->type === 'PTR') {
-                    $pieces = \explode('.', $record->domain);
-                    $param = $pieces[3]. '.' .$pieces[2]. '.' .$pieces[1]. '.' .$pieces[0];
-                    $search_arg = "search?q=$param&type=answers";
-                    $record_array = self::baseCurl(["key" => $this->valid_key, "arg" => $search_arg]);
-                    if (\array_key_exists('message', $record_array)) {
-                        $_SESSION['error'][] = "There was an error searching for $param. Please contact support";
-                        return;
-                    } elseif (\count($record_array) >= 1) {
-                        continue;
-                    } else {
-                       $this->orphan_array[$x]['zone'] = $zone;
-                       $this->orphan_array[$x]['record'] = $record->domain;
-                       $this->orphan_array[$x]['answer'] = $param;
-                       $x++;
+            if (!empty($this->record_list->records)) {
+                foreach ($this->record_list->records as $record) {
+                    if ($record->type === 'PTR') {
+                        $pieces = \explode('.', $record->domain);
+                        $param = $pieces[3] . '.' . $pieces[2] . '.' . $pieces[1] . '.' . $pieces[0];
+                        $search_arg = "search?q=$param&type=answers";
+                        $record_array = self::baseCurl(["key" => $this->valid_key, "arg" => $search_arg]);
+                        if (\array_key_exists('message', $record_array)) {
+                            $_SESSION['error'][] = "There was an error searching for $param. Please contact support";
+                            return;
+                        } elseif (\count($record_array) >= 1) {
+                            continue;
+                        } else {
+                            $this->orphan_array[$x]['zone'] = $zone;
+                            $this->orphan_array[$x]['record'] = $record->domain;
+                            $this->orphan_array[$x]['answer'] = $param;
+                            $x++;
+                        }
                     }
                 }
             }
