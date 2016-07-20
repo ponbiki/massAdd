@@ -7,7 +7,7 @@ $app->get('/results', function() use ($app) {
     if ((!array_key_exists('loggedin', $_SESSION)) || ($_SESSION['loggedin'] !== \TRUE)) {
         $app->redirect('/');
     }
-    
+
     $replaced = $_SESSION['api']->replaced;
     $records = [];
     
@@ -21,7 +21,7 @@ $app->get('/results', function() use ($app) {
         }
         $rec_count++;
     }
-    
+
     $answer = $_SESSION['api']->fieldset;
     $status = $_SESSION['api']->status;
     if ($_SESSION['api']->rep_hide === \TRUE) {
@@ -31,7 +31,7 @@ $app->get('/results', function() use ($app) {
     }
     $page = "Results";
     $meta = "Results Menu";
-    
+
     $app->render('results.html.twig', [
         'page' => $page,
         'meta' => $meta,
@@ -45,6 +45,6 @@ $app->get('/results', function() use ($app) {
         'replaced' => $replaced
     ]);
 
-    cheat\Session::clear();    
-    
+    cheat\Session::clear();
+
 })->name('results');

@@ -4,7 +4,7 @@ namespace ns1\apiCheat;
 
 class ApiCalls implements iApiCalls
 {
-    
+
     protected $body;
     protected $zone_hold;
     protected $rev_zones;
@@ -21,7 +21,7 @@ class ApiCalls implements iApiCalls
     public $replaced;
     public $orphan_array;
     public $orphans;    
-    
+
     protected function baseCurl($arg_array) {
         $ch = \curl_init();
         \curl_setopt($ch, \CURLOPT_URL, self::BASEURL . $arg_array['arg']);
@@ -42,7 +42,7 @@ class ApiCalls implements iApiCalls
         \curl_close($ch);
         return $this->body;
     }
-    
+
     public function keyValidate($key)
     {
         $body = self::baseCurl(["key" => $key, "arg" => "zones"]);
@@ -53,7 +53,7 @@ class ApiCalls implements iApiCalls
             self::zoneList($body);
         }
     }
-    
+
     protected function zoneList($zones_array)
     {
         foreach ($zones_array as $zones) {
@@ -61,13 +61,13 @@ class ApiCalls implements iApiCalls
         }
         return $this->zone_hold;
     }
- 
+
     public function getRecords($zone) {
         $this->clean_zone = \filter_var($zone, \FILTER_SANITIZE_STRING);
         $zone_arg = "zones/$this->clean_zone";
         $this->record_list = self::baseCurl(["key" => $this->valid_key, "arg" => $zone_arg]);
     }
-    
+
     public function getMatches($answer)
     {
         $this->rep_hide = \FALSE;
@@ -84,7 +84,7 @@ class ApiCalls implements iApiCalls
         }
         $this->replaced = \FALSE;
     }
-    
+
     public function replaceAnswer($new_answer, $change_list)
     {
         unset($this->fieldset);
@@ -131,7 +131,7 @@ class ApiCalls implements iApiCalls
         $this->interim_answer = $this->new_answer;
         $this->replaced = \TRUE;
     }
-    
+
     public function findOrphans()
     {
         unset($this->fieldset);
@@ -175,7 +175,7 @@ class ApiCalls implements iApiCalls
             $this->orphans = \TRUE;
         }
     }
-    
+
     protected function revZones()
     {
         unset($this->zone_hold);
@@ -187,7 +187,7 @@ class ApiCalls implements iApiCalls
             }
         }
     }
-    
+
     public function delPtr($del_list)
     {
         $holder = [];

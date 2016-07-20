@@ -19,7 +19,7 @@ class Session implements  iSession
             $_SESSION['error'] = [];
         }
     }
-    
+
     public static function logout()
     {
         if (isset($_SESSION['loggedin'])) {
@@ -30,7 +30,7 @@ class Session implements  iSession
             \session_destroy();
         }
     }
-    
+
     public static function clear()
     {
         unset($_SESSION['error']);

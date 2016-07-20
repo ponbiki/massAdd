@@ -3,11 +3,11 @@
 use ns1\apiCheat as cheat;
 
 $app->get('/orphans', function() use ($app) {
-    
+
     if ((!array_key_exists('loggedin', $_SESSION)) || ($_SESSION['loggedin'] !== \TRUE)) {
         $app->redirect('/');
     }
-    
+
     $answer = $_SESSION['api']->fieldset;
     $status = $_SESSION['api']->status;
     $page = "Orphaned PTR's";
@@ -16,7 +16,7 @@ $app->get('/orphans', function() use ($app) {
     foreach ($_SESSION['api']->orphan_array as $orphan) {
         $orphans[] = $orphan;
     }
-    
+
     $app->render('orphans.html.twig', [
         'page' => $page,
         'meta' => $meta,
@@ -29,5 +29,5 @@ $app->get('/orphans', function() use ($app) {
     ]);
 
     cheat\Session::clear();    
-    
+
 })->name('orphans');
