@@ -22,7 +22,8 @@ class ApiCalls implements iApiCalls
     public $orphan_array;
     public $orphans;    
 
-    protected function baseCurl($arg_array) {
+    protected function baseCurl($arg_array)
+    {
         $ch = \curl_init();
         \curl_setopt($ch, \CURLOPT_URL, self::BASEURL . $arg_array['arg']);
         \curl_setopt($ch, \CURLOPT_HTTPHEADER, array("X-NSONE-Key: {$arg_array['key']}"));
