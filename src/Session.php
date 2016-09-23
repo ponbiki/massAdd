@@ -2,7 +2,7 @@
 
 namespace ns1\apiCheat;
 
-class Session implements  iSession
+class Session implements iSession
 {
     public function __construct()
     {
