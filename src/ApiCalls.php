@@ -148,7 +148,7 @@ class ApiCalls implements iApiCalls
                 foreach ($this->record_list->records as $record) {
                     if ($record->type === 'PTR') {
                         $pieces = \explode('.', $record->domain);
-                        $param = $pieces[3] . '.' . $pieces[2] . '.' . $pieces[1] . '.' . $pieces[0];
+                        $param = "{$pieces[3]}.{$pieces[2]}.{$pieces[1]}.{$pieces[0]}";
                         $search_arg = "search?q=$param&type=answers";
                         $record_array = self::baseCurl(["key" => $this->valid_key, "arg" => $search_arg]);
                         if (\array_key_exists('message', $record_array)) {
